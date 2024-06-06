@@ -24,7 +24,7 @@ use spin_trigger::{loader, RuntimeConfig, TriggerExecutor, TriggerExecutorBuilde
 use spin_trigger_http::HttpTrigger;
 use spin_trigger_redis::RedisTrigger;
 use tokio::runtime::Runtime;
-use trigger_command::CommandTrigger;
+// use trigger_command::CommandTrigger;
 // use trigger_sqs::SqsTrigger;
 use url::Url;
 
@@ -208,7 +208,7 @@ impl SpinEngine {
 
     async fn run_trigger(
         &self,
-        ctx: &impl RuntimeContext,
+        _ctx: &impl RuntimeContext,
         trigger_types: Vec<&str>,
         app: LockedApp,
         app_source: AppSource,
@@ -248,17 +248,17 @@ impl SpinEngine {
                 //     info!(" >>> running spin trigger");
                 //     sqs_trigger.run(spin_trigger::cli::NoArgs)
                 // }
-                CommandTrigger::TRIGGER_TYPE => {
-                    let command_trigger: CommandTrigger = self
-                        .build_spin_trigger(working_dir.clone(), app.clone(), app_source.clone())
-                        .await
-                        .context("failed to build spin trigger")?;
+                // CommandTrigger::TRIGGER_TYPE => {
+                //     let command_trigger: CommandTrigger = self
+                //         .build_spin_trigger(working_dir.clone(), app.clone(), app_source.clone())
+                //         .await
+                //         .context("failed to build spin trigger")?;
 
-                    info!(" >>> running spin trigger");
-                    command_trigger.run(trigger_command::CliArgs {
-                        guest_args: ctx.args().to_vec(),
-                    })
-                }
+                //     info!(" >>> running spin trigger");
+                //     command_trigger.run(trigger_command::CliArgs {
+                //         guest_args: ctx.args().to_vec(),
+                //     })
+                // }
                 _ => {
                     todo!("Only Http, Redis and SQS triggers are currently supported.")
                 }
