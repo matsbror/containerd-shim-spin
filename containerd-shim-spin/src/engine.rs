@@ -25,7 +25,7 @@ use spin_trigger_http::HttpTrigger;
 use spin_trigger_redis::RedisTrigger;
 use tokio::runtime::Runtime;
 use trigger_command::CommandTrigger;
-use trigger_sqs::SqsTrigger;
+// use trigger_sqs::SqsTrigger;
 use url::Url;
 
 const SPIN_ADDR: &str = "0.0.0.0:80";
@@ -239,15 +239,15 @@ impl SpinEngine {
                     info!(" >>> running spin redis trigger");
                     redis_trigger.run(spin_trigger::cli::NoArgs)
                 }
-                SqsTrigger::TRIGGER_TYPE => {
-                    let sqs_trigger: SqsTrigger = self
-                        .build_spin_trigger(working_dir.clone(), app.clone(), app_source.clone())
-                        .await
-                        .context("failed to build spin trigger")?;
+                // SqsTrigger::TRIGGER_TYPE => {
+                //     let sqs_trigger: SqsTrigger = self
+                //         .build_spin_trigger(working_dir.clone(), app.clone(), app_source.clone())
+                //         .await
+                //         .context("failed to build spin trigger")?;
 
-                    info!(" >>> running spin trigger");
-                    sqs_trigger.run(spin_trigger::cli::NoArgs)
-                }
+                //     info!(" >>> running spin trigger");
+                //     sqs_trigger.run(spin_trigger::cli::NoArgs)
+                // }
                 CommandTrigger::TRIGGER_TYPE => {
                     let command_trigger: CommandTrigger = self
                         .build_spin_trigger(working_dir.clone(), app.clone(), app_source.clone())
@@ -485,8 +485,8 @@ fn trigger_command_for_resolved_app_source(resolved: &ResolvedAppSource) -> Resu
         match trigger_type.to_owned() {
             RedisTrigger::TRIGGER_TYPE
             | HttpTrigger::TRIGGER_TYPE
-            | SqsTrigger::TRIGGER_TYPE
-            | CommandTrigger::TRIGGER_TYPE => types.push(trigger_type),
+            /* | SqsTrigger::TRIGGER_TYPE
+            | CommandTrigger::TRIGGER_TYPE*/ => types.push(trigger_type),
             _ => {
                 todo!("Only Http, Redis and SQS triggers are currently supported.")
             }
@@ -503,7 +503,7 @@ mod tests {
     #[test]
     fn can_parse_spin_address() {
         let parsed = parse_addr(SPIN_ADDR).unwrap();
-        assert_eq!(parsed.clone().port(), 80);
+        assert_eq!(parsed.clone().port(), 8080);
         assert_eq!(parsed.ip().to_string(), "0.0.0.0");
     }
 
