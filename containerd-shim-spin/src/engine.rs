@@ -28,7 +28,7 @@ use tokio::runtime::Runtime;
 // use trigger_sqs::SqsTrigger;
 use url::Url;
 
-const SPIN_ADDR: &str = "0.0.0.0:80";
+const SPIN_ADDR: &str = "0.0.0.0:8080";
 /// RUNTIME_CONFIG_PATH specifies the expected location and name of the runtime
 /// config for a Spin application. The runtime config should be loaded into the
 /// root `/` of the container.
